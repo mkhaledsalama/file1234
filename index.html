@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> محمود خالد </title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:"Segoe UI","Arial",sans-serif;
+    background:#0f172a;
+    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    height:100vh;overflow:hidden;
+  }
+  .screen{
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    padding:20px;text-align:center;
+    transition:opacity 1s ease, transform 1s ease;
+  }
+  .hidden{opacity:0;pointer-events:none;transform:scale(.8);}
+  .btn{
+    margin-top:20px;
+    padding:12px 25px;
+    font-size:20px;
+    background:linear-gradient(90deg,#ff00ff,#00e0ff);
+    border:none;border-radius:8px;cursor:pointer;color:#fff;
+    animation:bounce 2s infinite,pulse 1.5s infinite alternate;
+  }
+  @keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+  @keyframes pulse{
+    0%{box-shadow:0 0 10px #ff00ff}
+    100%{box-shadow:0 0 25px #00e0ff}
+  }
+  /* glass box */
+  .glass{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(6px);
+    padding:25px;
+    border-radius:15px;
+    max-width:700px;
+    line-height:1.8;
+    font-size:18px;
+    text-align:right;
+  }
+  .glass p{margin-bottom:15px;}
+  
+  /* خلفية نجوم + فقاقيع */
+  .stars, .bubbles{
+    position:fixed;inset:0;pointer-events:none;z-index:-1;
+  }
+  .star{
+    position:absolute;
+    width:2px;height:2px;
+    background:white;border-radius:50%;
+    animation:twinkle 2s infinite alternate;
+  }
+  @keyframes twinkle{from{opacity:.2;}to{opacity:1;}}
+  .bubble{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,0.2);
+    animation:rise 10s infinite;
+  }
+  @keyframes rise{
+    from{transform:translateY(100vh) scale(.5);opacity:0;}
+    to{transform:translateY(-10vh) scale(1);opacity:1;}
+  }
+
+  /* intro screen */
+  .intro-anim{
+    position:relative;
+    width:100%;
+    height:100%;
+    background:#0f172a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+  }
+  .welcome-text{
+    font-size:60px;
+    font-weight:bold;
+    background:linear-gradient(90deg,#ff00ff,#00e0ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    opacity:0;
+    animation:fadeIn 2s ease forwards;
+  }
+  @keyframes fadeIn{
+    from{opacity:0;transform:scale(.8);}
+    to{opacity:1;transform:scale(1);}
+  }
+</style>
+</head>
+<body>
+
+<!-- خلفية -->
+<div class="stars"></div>
+<div class="bubbles"></div>
+
+<!-- Intro -->
+<div class="screen" id="intro">
+  <div class="intro-anim">
+    <h1 class="welcome-text">Welcome ✨</h1>
+  </div>
+  <button class="btn hidden" id="startBtn" onclick="startSite()">ابدأ 🚀</button>
+</div>
+
+<!-- screen 1 -->
+<div class="screen hidden" id="screen1">
+  <div class="glass">
+    <p>✨ انا بحكم تعليمي بقدم حاجه بسيطه اوي حاسسها جديده ✨</p>
+    <p>بس اتمني تعجبكم ❤</p>
+    <p>انا <b>محمود خالد</b> و اقدم ده لكم.. منتظر رائيكم في اولي اعمالي 😁</p>
+  </div>
+  <button class="btn" onclick="nextScreen(1)">التالي ➡️</button>
+</div>
+
+<!-- screen 2 -->
+<div class="screen hidden" id="screen2">
+  <div class="glass">
+    <p>😂 انا نسيت اقول حاجه .. معالش هقولها هنا :</p>
+    <button class="btn" onclick="showHiddenText()">اظهر الكلام</button>
+    <div id="hiddenText" style="display:none;margin-top:20px;">
+      <p>الموقع ده مخصوص لي شخصي المفضل </p>
+      <p>حابب اشكرك علي كل حاجه عملتيها معايا بجد 🙏</p>
+      <p>شكراً لوجودك في حياتي <b>ENG. Esraa Youssef</b></p>
+      <p>وهتفضلي اختي و صديقتي الكبيره </p>
+      <p>شكراً لدعم حضرتك ليا طول الوقت 🌹</p>
+      <button class="btn" onclick="nextScreen(2)">التالي ➡️</button>
+    </div>
+  </div>
+</div>
+
+<!-- screen 3 -->
+<div class="screen hidden" id="screen3">
+  <div class="glass">
+    <p>🎉 الموقع ده ل حضرتك مخصوص 🎉</p>
+    <p>النهارده <b>16/10/2025</b> اول عيد ميلاد اكون موجود في حيات حضرتك 🎂</p>
+    <p>قدمي و شوفي التفاعل 🥳</p>
+  </div>
+  <button class="btn" onclick="nextScreen(3)">التالي ➡️</button>
+</div>
+
+<!-- screen 4: login -->
+<div class="screen hidden" id="screen4">
+  <div class="glass">
+    <h2>🔐 تسجيل دخول</h2>
+    <input type="text" id="username" placeholder="اسم المستخدم" style="padding:12px;margin:8px;border:none;border-radius:8px;width:100%;background:rgba(255,255,255,0.1);color:#fff;font-size:16px;">
+    <input type="password" id="password" placeholder="كلمة السر" style="padding:12px;margin:8px;border:none;border-radius:8px;width:100%;background:rgba(255,255,255,0.1);color:#fff;font-size:16px;">
+    <button class="btn" onclick="login()">دخول</button>
+  </div>
+</div>
+
+<!-- screen 5: الرسالة الكبيرة -->
+<div class="screen hidden" id="screen5">
+  <div class="glass" style="max-height:70vh;overflow:auto;white-space:pre-wrap;">
+    <h2>💌 رسالة خاصة</h2>
+    <p>مش عارف اقول ايه 😂  الكلام كتير و في البدايه انا عايز اقول :</p>
+    <p>كل سنه و حضرتك طيبه و بخير يارب 🥳</p>
+    <p>و عقبال 1000000000000000 الرقم اللي مش عارف اقراه 😂🥳</p>
+    <p>كل سنه و حضرتك بخير و صحه و سلامه يارب، و ان شاء الله السنه دي تحققي إنجازات كتير اوي 💪</p> 
+
+كل سنة وأنتي أجمل حاجة في الدنيا،
+كل سنة وأنتي مصدر بهجة وراحة لكل اللي حواليكي،
+كل سنة وأنتي النور اللي بيهون التعب، والضحكة اللي بتنسي أي وجع.
+
+أنا مش لاقي كلام يوصف قد إيه حضرتك غالية…
+بس عارف إن كل كلمة طيبة، وكل دعوة من قلبي، وكل شكر أنا قلته — مش هيكفي ولا هيعبّر عن نص اللي في قلبي.
+
+إنتي البركة اللي في الأيام، والدعم اللي بيخليني واقف،
+إنتي اللي بوجودك أي موقف بيتعدل، وأي زعل بيتنسي، وأي حاجة صعبة بتبقى سهلة.
+
+مبسوط إني عرفت إن في حد زيك…
+مبسوط إني بتكلم معاكي كل يوم…
+مبسوط إنك فتحتيلي بيتك وعرفّتيني على عيلتك الجميلة…
+مبسوط إنك بتعاملي محمود بقلب غير أي قلب.
+
+أنا بدعي ربنا يبارك في عمرك،
+ويخليكي للي بتحبيهم ويخليهم ليكي،
+ويحققلك كل اللي نفسك فيه، من غير ما تحتاجي تطلبي.
+
+ربنا يرزقك راحة قلب، ويكتبلك الخير في كل خطوة،
+ويخلي كل يوم في حياتك أحلى من اللي قبله.
+
+إنتي حاجة كبيرة أوي في عيني، وحاجة غالية أوي في قلبي…
+وعيد ميلادك مش يوم عادي، ده يوم اتولد فيه إنسانة وجودها فرق بجد.
+
+كل سنة وأنتي بخير وسعادة وراحة،
+وعقبال مليون سنة كلها فرح ورضا ونجاحات ✨💖
+
+
+(في كلام في الواتس تاني بقا 😂😂😂😂😂)
+</div>
+</div>
+
+<script>
+function startSite(){
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("screen1").classList.remove("hidden");
+}
+function nextScreen(n){
+  document.getElementById('screen'+n).classList.add('hidden');
+  document.getElementById('screen'+(n+1)).classList.remove('hidden');
+}
+function showHiddenText(){
+  document.getElementById('hiddenText').style.display='block';
+}
+function login(){
+  let u=document.getElementById('username').value.trim();
+  let p=document.getElementById('password').value.trim();
+  if(u==="esraa" && p==="esraa123"){
+    nextScreen(4);
+  }else{
+    alert("❌ الاسم أو الباسورد غلط!");
+  }
+}
+
+/* generate stars + bubbles */
+const stars=document.querySelector('.stars');
+for(let i=0;i<80;i++){
+  let s=document.createElement('div');
+  s.className='star';
+  s.style.top=Math.random()*100+'%';
+  s.style.left=Math.random()*100+'%';
+  s.style.animationDuration=(Math.random()*2+1)+'s';
+  stars.appendChild(s);
+}
+const bubbles=document.querySelector('.bubbles');
+for(let i=0;i<15;i++){
+  let b=document.createElement('div');
+  b.className='bubble';
+  let size=Math.random()*40+20;
+  b.style.width=size+'px';b.style.height=size+'px';
+  b.style.left=Math.random()*100+'%';
+  b.style.animationDuration=(Math.random()*10+5)+'s';
+  bubbles.appendChild(b);
+}
+
+// intro start button delay
+setTimeout(()=>{
+  document.getElementById("startBtn").classList.remove("hidden");
+},2500);
+</script>
+</body>
+</html>
